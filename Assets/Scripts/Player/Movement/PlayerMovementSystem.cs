@@ -14,6 +14,8 @@ namespace Player.Movement
     public partial struct PlayerMovementSystem : ISystem
     {
         const float MoveSpeed = 5f;
+        const float Acceleration = 40f;
+        const float Deceleration = 15f;
 
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
@@ -26,9 +28,25 @@ namespace Player.Movement
             {
                 var move = math.normalizesafe(new float3(input.ValueRO.Horizontal, 0f, input.ValueRO.Vertical));
                 var linear = velocity.ValueRW.Linear;
-                linear.xz = (move * MoveSpeed).xz;   // keep gravity on the Y axis
+
+                var current = linear.xz;
+                var target = (move * MoveSpeed).xz;
+                var speed = math.length(current);
+                var hasInput = math.lengthsq(move) > 0f;
+                
+                var rate = hasInput && speed <= MoveSpeed ? Acceleration : Deceleration;
+
+                linear.xz = MoveTowards(current, target, rate * SystemAPI.Time.DeltaTime);
                 velocity.ValueRW.Linear = linear;
+
             }
+        }
+        
+        static float2 MoveTowards(float2 current, float2 target, float maxDelta)
+        {
+            var delta = target - current;
+            var dist = math.length(delta);
+            return dist <= maxDelta || dist < 1e-5f ? target : current + delta / dist * maxDelta;
         }
     }
 }
