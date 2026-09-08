@@ -1,40 +1,42 @@
 using Unity.NetCode;
 using Unity.Networking.Transport;
-using UnityEngine;
 using UnityEngine.Scripting;
 
-[Preserve]
-public class GameBootstrap : ClientServerBootstrap
+namespace Bootstrapping
 {
-    public const int Port = 7979;
-
-    public override bool Initialize(string defaultWorldName)
+    [Preserve]
+    public class GameBootstrap : ClientServerBootstrap
     {
-        var address = "127.0.0.1";
-        var clientOnly = false;
-        
-        var args = System.Environment.GetCommandLineArgs();
+        public const int Port = 7979;
 
-        for (int i = 0; i < args.Length; i++)
+        public override bool Initialize(string defaultWorldName)
         {
-            if (args[i] != "-client")
-                continue;
+            var address = "127.0.0.1";
+            var clientOnly = false;
+        
+            var args = System.Environment.GetCommandLineArgs();
 
-            clientOnly = true;
-            if (i + 1 < args.Length && !args[i + 1].StartsWith("-"))
-                address = args[i + 1];
-        }
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i] != "-client")
+                    continue;
 
-        AutoConnectPort = Port;
+                clientOnly = true;
+                if (i + 1 < args.Length && !args[i + 1].StartsWith("-"))
+                    address = args[i + 1];
+            }
+
+            AutoConnectPort = Port;
         
-        DefaultConnectAddress = NetworkEndpoint.Parse(address,Port);
+            DefaultConnectAddress = NetworkEndpoint.Parse(address,Port);
         
-        if (clientOnly)
-        {
-            CreateClientWorld("ClientWorld");
-            return true;
+            if (clientOnly)
+            {
+                CreateClientWorld("ClientWorld");
+                return true;
+            }
+        
+            return base.Initialize(defaultWorldName);
         }
-        
-        return base.Initialize(defaultWorldName);
     }
 }

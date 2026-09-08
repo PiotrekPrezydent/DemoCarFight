@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2779203666679355846}
   - component: {fileID: 6948402329624845657}
   - component: {fileID: 3605130283207619144}
+  - component: {fileID: 8045036722810256331}
   m_Layer: 0
   m_Name: PlayerCubeRed
   m_TagString: Untagged
@@ -189,3 +190,15 @@ MonoBehaviour:
   Importance: 1
   MaxSendRate: 0
   prefabId: 879975e63239303768bd6698ddc875ff
+--- !u!114 &8045036722810256331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089681565342969695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195bc15f134d60ee08a2f8e6565a681d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

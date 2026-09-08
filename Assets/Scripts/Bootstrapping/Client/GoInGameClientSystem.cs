@@ -1,4 +1,4 @@
-using Components;
+using GameSpawnering;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;

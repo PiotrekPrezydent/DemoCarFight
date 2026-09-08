@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-namespace Components
+namespace Player
 {
     public struct PlayerTag : IComponentData { }
 }

@@ -1,7 +1,7 @@
 using Unity.Entities;
 using UnityEngine;
 
-namespace Components
+namespace Player
 {
     [DisallowMultipleComponent]
     public class PlayerAuthoring : MonoBehaviour
