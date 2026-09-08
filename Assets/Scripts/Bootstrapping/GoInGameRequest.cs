@@ -1,6 +1,6 @@
 using Unity.NetCode;
 
-namespace Systems.GoInGame
+namespace Bootstrapping
 {
     public struct GoInGameRequest : IRpcCommand { }
 }

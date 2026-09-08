@@ -1,10 +1,10 @@
-using GameSpawnering;
+using GameSpawning;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.NetCode;
 
-namespace Systems.GoInGame
+namespace Bootstrapping.Client
 {
     [BurstCompile]
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]

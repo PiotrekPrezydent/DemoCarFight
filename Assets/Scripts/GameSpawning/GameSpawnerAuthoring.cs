@@ -1,7 +1,7 @@
 using Unity.Entities;
 using UnityEngine;
 
-namespace GameSpawnering
+namespace GameSpawning
 {
     [DisallowMultipleComponent]
     public class GameSpawnerAuthoring : MonoBehaviour

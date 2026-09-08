@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-namespace GameSpawnering
+namespace GameSpawning
 {
     public struct GameSpawner : IComponentData
     {

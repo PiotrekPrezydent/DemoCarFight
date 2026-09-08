@@ -2,7 +2,7 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.NetCode;
 
-namespace Systems.GoInGame
+namespace Bootstrapping
 {
     [BurstCompile]
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation | WorldSystemFilterFlags.ServerSimulation |

@@ -1,6 +1,6 @@
 using Unity.NetCode;
 
-namespace Player
+namespace Player.Inputs
 {
     public struct PlayerInput : IInputComponentData
     {
