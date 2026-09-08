@@ -1,3 +1,4 @@
+using Components;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -12,11 +13,13 @@ namespace Systems.GoInGame
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            // state.RequireForUpdate<GameSpawner>();
-            // var builder = new EntityQueryBuilder(Allocator.Temp)
-            //     .WithAll<NetworkId>()
-            //     .WithNone<NetworkStreamInGame>();
-            // state.RequireForUpdate(state.GetEntityQuery(builder));
+            state.RequireForUpdate<GameSpawner>();
+            
+            var builder = new EntityQueryBuilder(Allocator.Temp)
+                .WithAll<NetworkId>()
+                .WithNone<NetworkStreamInGame>();
+            
+            state.RequireForUpdate(state.GetEntityQuery(builder));
         }
 
         [BurstCompile]
