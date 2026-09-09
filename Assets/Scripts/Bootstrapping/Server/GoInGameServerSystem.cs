@@ -55,8 +55,9 @@ namespace Bootstrapping.Server
                 
                 commandBuffer.SetComponent(player, new GhostOwner { NetworkId = networkId });
                 
-                // Spawn players on opposite sides of the platform.
-                commandBuffer.SetComponent(player, LocalTransform.FromPosition(SpawnPositionFor(networkId)));
+                // Spawn players on opposite sides of the platform, nose pointing at each other.
+                commandBuffer.SetComponent(player, LocalTransform.FromPositionRotation(
+                    SpawnPositionFor(networkId), SpawnRotationFor(networkId)));
 
                 // Destroy the player entity when the connection is closed.
                 commandBuffer.AppendToBuffer(connection, new LinkedEntityGroup { Value = player });
@@ -65,10 +66,23 @@ namespace Bootstrapping.Server
             commandBuffer.Playback(state.EntityManager);
         }
 
-        // opposite edges of the platform, one unit above its surface
+        // The arena is 50 wide and a car is about 7 long, so the two of them start
+        // roughly three car lengths apart with the whole platform between them.
+        const float SpawnDistanceFromCenter = 12f;
+
+        // Just above the platform surface, which sits at y = 0. The car drops the last
+        // few centimetres and settles, which also proves gravity is running.
+        const float SpawnHeight = 0.6f;
+
+        // odd ids start on the west side, even ids on the east side
         static float3 SpawnPositionFor(int networkId) => new float3(
-            networkId % 2 == 1 ? 
-                -2f : 
-                2f, 1f, 0f);
+            networkId % 2 == 1 ? -SpawnDistanceFromCenter : SpawnDistanceFromCenter,
+            SpawnHeight,
+            0f);
+
+        // The nose points along local +X, so the car on the west side needs no rotation
+        // and the one on the east side is turned around to face it.
+        static quaternion SpawnRotationFor(int networkId) =>
+            networkId % 2 == 1 ? quaternion.identity : quaternion.RotateY(math.PI);
     }
 }

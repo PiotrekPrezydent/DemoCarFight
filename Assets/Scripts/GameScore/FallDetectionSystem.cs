@@ -11,7 +11,12 @@ namespace GameScore
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct FallDetectionSystem : ISystem
     {
-        const float FallThresholdY = -5f;
+        // the platform surface is at y = 0, so this is a clear fall and not a bump
+        const float FallThresholdY = -8f;
+
+        // kept in sync with GoInGameServerSystem - see the comments there
+        const float SpawnDistanceFromCenter = 12f;
+        const float SpawnHeight = 0.6f;
 
         public void OnCreate(ref SystemState state)
         {
@@ -43,15 +48,22 @@ namespace GameScore
                     break;
                 }
 
-                // Respawn: reset both transform and velocity, otherwise the cube keeps falling.
-                transform.ValueRW = LocalTransform.FromPosition(SpawnPositionFor(fallenId));
+                // Respawn facing the arena again, and clear the velocity - otherwise the car
+                // reappears with the speed it had while falling and drops straight off again.
+                transform.ValueRW = LocalTransform.FromPositionRotation(
+                    SpawnPositionFor(fallenId), SpawnRotationFor(fallenId));
                 velocity.ValueRW = default;
             }
 
             players.Dispose();
         }
 
-        static float3 SpawnPositionFor(int networkId) =>
-            new float3(networkId % 2 == 1 ? -2f : 2f, 1f, 0f);
+        static float3 SpawnPositionFor(int networkId) => new float3(
+            networkId % 2 == 1 ? -SpawnDistanceFromCenter : SpawnDistanceFromCenter,
+            SpawnHeight,
+            0f);
+
+        static quaternion SpawnRotationFor(int networkId) =>
+            networkId % 2 == 1 ? quaternion.identity : quaternion.RotateY(math.PI);
     }
 }

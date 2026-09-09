@@ -148,8 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1decf2cf7242d589e4bbe4aa8bfec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RedPlayerPrefab: {fileID: 2089681565342969695, guid: 879975e63239303768bd6698ddc875ff, type: 3}
-  BluePlayerPrefab: {fileID: 2089681565342969695, guid: 0a9ce8aa1c5cbb7e094dbc1f81c0e52b, type: 3}
+  RedPlayerPrefab: {fileID: 3057928333159691439, guid: e745e4871ac6861279f5cfa64a2cf0e0, type: 3}
+  BluePlayerPrefab: {fileID: 3057928333159691439, guid: ea7233766f80b3054b76d03e8f5d6e32, type: 3}
   GameStatePrefab: {fileID: 6313968129238853437, guid: 2ea98bef97e1ea140941e9162fbdc1e8, type: 3}
 --- !u!4 &728078626
 Transform:
@@ -269,7 +269,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.25, z: 0}
-  m_LocalScale: {x: 10, y: 0.5, z: 10}
+  m_LocalScale: {x: 50, y: 0.5, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
