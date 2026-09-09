@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RedPlayerPrefab: {fileID: 2089681565342969695, guid: 879975e63239303768bd6698ddc875ff, type: 3}
   BluePlayerPrefab: {fileID: 2089681565342969695, guid: 0a9ce8aa1c5cbb7e094dbc1f81c0e52b, type: 3}
-  GameStatePrefab: {fileID: 0}
+  GameStatePrefab: {fileID: 6313968129238853437, guid: 2ea98bef97e1ea140941e9162fbdc1e8, type: 3}
 --- !u!4 &728078626
 Transform:
   m_ObjectHideFlags: 0
