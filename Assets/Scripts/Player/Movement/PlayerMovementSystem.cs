@@ -8,15 +8,24 @@ using Unity.Physics.Systems;
 
 namespace Player.Movement
 {
-    [UpdateInGroup(typeof(PredictedFixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [BurstCompile]
+    /// <summary>
+    /// turns PlayerInput into PhysicsVelocity,
+    /// runs on the server and again for every replayed tick in the client prediction loop,
+    /// accelerates towards the target speed instead of assigning it,
+    /// above MoveSpeed it only brakes so a collision push survives instead of being cancelled
+    /// </summary>
+    [UpdateInGroup(typeof(PredictedFixedStepSimulationSystemGroup))] // once per tick on the server, once per replayed tick on the client
+    [UpdateBefore(typeof(PhysicsSystemGroup))]                       // netcode moves physics into the group above, velocity must be set before the solver
+    [BurstCompile]                                                   // nothing managed here, so the whole system compiles
     public partial struct PlayerMovementSystem : ISystem
     {
+        // full speed in 0.125 s keeps steering sharp, a push decays over roughly 0.3 s
         const float MoveSpeed = 5f;
         const float Acceleration = 40f;
         const float Deceleration = 15f;
 
+        // runs many times per frame during rollback, so it must stay deterministic
+        // and keep no state between ticks
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
@@ -42,6 +51,7 @@ namespace Player.Movement
             }
         }
         
+        // math has no MoveTowards for float2, the epsilon guards against dividing by zero
         static float2 MoveTowards(float2 current, float2 target, float maxDelta)
         {
             var delta = target - current;

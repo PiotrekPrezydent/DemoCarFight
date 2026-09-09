@@ -3,7 +3,10 @@ using UnityEngine;
 
 namespace Player
 {
-    [DisallowMultipleComponent]
+    /// <summary>
+    /// puts PlayerTag on the baked player prefab
+    /// </summary>
+    [DisallowMultipleComponent] // guards against baking the same component onto the entity twice
     public class PlayerAuthoring : MonoBehaviour
     {
         class PlayerBaker : Baker<PlayerAuthoring>

@@ -6,10 +6,17 @@ using Unity.NetCode;
 
 namespace Bootstrapping.Client
 {
-    [BurstCompile]
-    [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
+    /// <summary>
+    /// client side of the handshake,
+    /// waits until the server hands out a NetworkId, then flags the connection as in game
+    /// and sends GoInGameRequest so the server spawns our player,
+    /// stops running by itself once the connection has NetworkStreamInGame
+    /// </summary>
+    [BurstCompile]                                               // needed on the struct and on every method, burst compiles methods not types
+    [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)] // never created in the server world, so there is no runtime check to pay for
     public partial struct GoInGameClientSystem : ISystem
     {
+        // two gates: the subscene has to be loaded, and the connection must not be in game yet
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
@@ -22,6 +29,7 @@ namespace Bootstrapping.Client
             state.RequireForUpdate(state.GetEntityQuery(builder));
         }
 
+        // flags the connection and sends the rpc, after which it stops matching its own query
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
